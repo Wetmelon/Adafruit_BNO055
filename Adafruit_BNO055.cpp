@@ -77,12 +77,15 @@ bool Adafruit_BNO055::begin(adafruit_bno055_opmode_t mode)
   setMode(OPERATION_MODE_CONFIG);
 
   /* Reset */
+  /*  This causes issues if while() never evaluates true */
+  /*
   write8(BNO055_SYS_TRIGGER_ADDR, 0x20);
   while (read8(BNO055_CHIP_ID_ADDR) != BNO055_ID)
   {
     delay(10);
   }
   delay(50);
+  */
 
   /* Set to normal power mode */
   write8(BNO055_PWR_MODE_ADDR, POWER_MODE_NORMAL);
