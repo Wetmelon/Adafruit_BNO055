@@ -29,6 +29,8 @@
 #ifdef __AVR_ATtiny85__
  #include <TinyWireM.h>
  #define Wire TinyWireM
+#elif defined(TEENSYDUINO)
+ #include <i2c_t3.h>
 #else
  #include <Wire.h>
 #endif
