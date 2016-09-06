@@ -173,7 +173,7 @@ void Adafruit_BNO055::getSystemStatus(uint8_t *system_status, uint8_t *self_test
      2 = Initializing Peripherals
      3 = System Iniitalization
      4 = Executing Self-Test
-     5 = Sensor fusio algorithm running
+     5 = Sensor fusion algorithm running
      6 = System running without fusion algorithms */
 
   if (system_status != 0)
@@ -381,7 +381,7 @@ void Adafruit_BNO055::getSensor(sensor_t *sensor)
 
 /**************************************************************************/
 /*!
-    @brief  Reads the sensor and returns the data as a sensors_event_t
+    @brief  Reads orientation data from the sensor and returns the data as a sensors_event_t
 */
 /**************************************************************************/
 bool Adafruit_BNO055::getEvent(sensors_event_t *event)
@@ -401,6 +401,54 @@ bool Adafruit_BNO055::getEvent(sensors_event_t *event)
   event->orientation.z = euler.z();
 
   return true;
+}
+
+/**************************************************************************/
+/*!
+@brief  Reads accelerometer data from the sensor and returns the data as a sensors_event_t
+*/
+/**************************************************************************/
+bool Adafruit_BNO055::getAccel(sensors_event_t *event)
+{
+    /* Clear the event */
+    memset(event, 0, sizeof(sensors_event_t));
+
+    event->version = sizeof(sensors_event_t);
+    event->sensor_id = _sensorID;
+    event->type = SENSOR_TYPE_ACCELEROMETER;
+    event->timestamp = millis();
+
+    /* Get a Euler angle sample for orientation */
+    imu::Vector<3> accel = getVector(Adafruit_BNO055::VECTOR_ACCELEROMETER);
+    event->acceleration.x = accel.x();
+    event->acceleration.y = accel.y();
+    event->acceleration.z = accel.z();
+
+    return true;
+}
+
+/**************************************************************************/
+/*!
+@brief  Reads gyroscope data from the sensor and returns the data as a sensors_event_t
+*/
+/**************************************************************************/
+bool Adafruit_BNO055::getGyro(sensors_event_t *event)
+{
+    /* Clear the event */
+    memset(event, 0, sizeof(sensors_event_t));
+
+    event->version = sizeof(sensors_event_t);
+    event->sensor_id = _sensorID;
+    event->type = SENSOR_TYPE_GYROSCOPE;
+    event->timestamp = millis();
+
+    /* Get a Euler angle sample for orientation */
+    imu::Vector<3> gyro = getVector(Adafruit_BNO055::VECTOR_GYROSCOPE);
+    event->gyro.x = gyro.x();
+    event->gyro.y = gyro.y();
+    event->gyro.z = gyro.z();
+
+    return true;
 }
 
 /**************************************************************************/

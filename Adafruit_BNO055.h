@@ -304,6 +304,8 @@ class Adafruit_BNO055 : public Adafruit_Sensor
 
     /* Adafruit_Sensor implementation */
     bool  getEvent  ( sensors_event_t* );
+    bool  getAccel  ( sensors_event_t* );
+    bool  getGyro   ( sensors_event_t* );
     void  getSensor ( sensor_t* );
 
     /* Functions to deal with raw calibration data */
