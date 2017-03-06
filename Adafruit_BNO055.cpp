@@ -536,7 +536,13 @@ bool Adafruit_BNO055::setSensorOffsets(const uint8_t* calibData)
     system_status = self_test_results = system_error = 0;
 
     setMode(OPERATION_MODE_CONFIG);
+<<<<<<< HEAD
     delay(30);
+=======
+    delay(25);
+
+    writeLen(ACCEL_OFFSET_X_LSB_ADDR, calibData, NUM_BNO055_OFFSET_REGISTERS);
+>>>>>>> master
 
     getSystemStatus(&system_status, &self_test_results, &system_error);
 
@@ -715,4 +721,34 @@ bool Adafruit_BNO055::readLen(adafruit_bno055_reg_t reg, byte * buffer, uint8_t 
 
   /* ToDo: Check for errors! */
   return true;
+}
+
+/**************************************************************************/
+/*!
+    @brief  Writes a buffer of 8 bit values over I2C
+*/
+/**************************************************************************/
+bool Adafruit_BNO055::writeLen(adafruit_bno055_reg_t reg, const uint8_t * buffer, uint8_t len)
+{
+
+  size_t result = 0;
+  bool no_error = true;
+
+  Wire.beginTransmission(_address);
+  #if ARDUINO >= 100
+    Wire.write((uint8_t)reg);
+    result = Wire.write(buffer, len);
+
+    if ((uint8_t)result != len) {
+      no_error = false;
+    }
+
+  #else
+    Wire.send(reg);
+    // Not error-checking send() as its return type is void.
+    Wire.send(buffer, len);
+  #endif
+  Wire.endTransmission();
+
+  return no_error;
 }
