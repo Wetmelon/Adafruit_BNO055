@@ -536,45 +536,15 @@ bool Adafruit_BNO055::setSensorOffsets(const uint8_t* calibData)
     system_status = self_test_results = system_error = 0;
 
     setMode(OPERATION_MODE_CONFIG);
-<<<<<<< HEAD
-    delay(30);
-=======
     delay(25);
 
-    writeLen(ACCEL_OFFSET_X_LSB_ADDR, calibData, NUM_BNO055_OFFSET_REGISTERS);
->>>>>>> master
+    
 
     getSystemStatus(&system_status, &self_test_results, &system_error);
 
     if (system_status == 0x00)
     {
-        /* A writeLen() would make this much cleaner */
-        write8(ACCEL_OFFSET_X_LSB_ADDR, calibData[0]);
-        write8(ACCEL_OFFSET_X_MSB_ADDR, calibData[1]);
-        write8(ACCEL_OFFSET_Y_LSB_ADDR, calibData[2]);
-        write8(ACCEL_OFFSET_Y_MSB_ADDR, calibData[3]);
-        write8(ACCEL_OFFSET_Z_LSB_ADDR, calibData[4]);
-        write8(ACCEL_OFFSET_Z_MSB_ADDR, calibData[5]);
-
-        write8(GYRO_OFFSET_X_LSB_ADDR, calibData[6]);
-        write8(GYRO_OFFSET_X_MSB_ADDR, calibData[7]);
-        write8(GYRO_OFFSET_Y_LSB_ADDR, calibData[8]);
-        write8(GYRO_OFFSET_Y_MSB_ADDR, calibData[9]);
-        write8(GYRO_OFFSET_Z_LSB_ADDR, calibData[10]);
-        write8(GYRO_OFFSET_Z_MSB_ADDR, calibData[11]);
-
-        write8(MAG_OFFSET_X_LSB_ADDR, calibData[12]);
-        write8(MAG_OFFSET_X_MSB_ADDR, calibData[13]);
-        write8(MAG_OFFSET_Y_LSB_ADDR, calibData[14]);
-        write8(MAG_OFFSET_Y_MSB_ADDR, calibData[15]);
-        write8(MAG_OFFSET_Z_LSB_ADDR, calibData[16]);
-        write8(MAG_OFFSET_Z_MSB_ADDR, calibData[17]);
-
-        write8(ACCEL_RADIUS_LSB_ADDR, calibData[18]);
-        write8(ACCEL_RADIUS_MSB_ADDR, calibData[19]);
-        write8(MAG_RADIUS_LSB_ADDR, calibData[20]);
-        write8(MAG_RADIUS_MSB_ADDR, calibData[21]);
-
+        writeLen(ACCEL_OFFSET_X_LSB_ADDR, calibData, NUM_BNO055_OFFSET_REGISTERS);
         setMode(lastMode);
         return true;
     }
